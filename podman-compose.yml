@@ -10,8 +10,7 @@ services:
       - DASHBOARD_USER=${DASHBOARD_USER:-admin}
       - DASHBOARD_PASS=${DASHBOARD_PASS:-sensor123}
       - SUPABASE_URL=${SUPABASE_URL}
-      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
-      - SUPABASE_SERVICE_KEY=${SUPABASE_SERVICE_KEY}
+      - SUPABASE_KEY=${SUPABASE_KEY}
     env_file:
       - .env
     restart: unless-stopped

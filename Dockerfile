@@ -25,7 +25,6 @@ RUN uv sync --frozen
 
 # Copy application code
 COPY main.py ./
-COPY .env ./
 
 # Expose the port that NiceGUI uses
 EXPOSE 8081
