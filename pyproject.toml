@@ -1,0 +1,13 @@
+[project]
+name = "sensor-dash"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "nicegui>=2.24.2",
+    "pandas>=2.3.2",
+    "plotly>=6.3.0",
+    "pytz>=2025.2",
+    "supabase>=2.20.0",
+]

@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  sensor-dash:
+    build: .
+    container_name: sensor-dashboard
+    ports:
+      - "8081:8081"
+    environment:
+      - DASHBOARD_USER=${DASHBOARD_USER:-admin}
+      - DASHBOARD_PASS=${DASHBOARD_PASS:-sensor123}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - SUPABASE_SERVICE_KEY=${SUPABASE_SERVICE_KEY}
+    env_file:
+      - .env
+    restart: unless-stopped
+    volumes:
+      # Optional: Mount logs directory
+      - ./logs:/app/logs
+    networks:
+      - sensor-network
+
+networks:
+  sensor-network:
+    driver: bridge
