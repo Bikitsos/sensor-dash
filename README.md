@@ -47,17 +47,53 @@ Based on your Supabase schema, the dashboard supports:
 uv install
 ```
 
-#### 3. Configure Supabase (Optional)
-Create a `.env` file in the project root:
+#### 3. Configure Environment Variables
+Create a `.env` file in the project root with your configuration:
+
 ```bash
+# Copy the example template (if available)
 cp .env.example .env
+# Or create a new .env file
+touch .env
 ```
 
-Edit `.env` with your Supabase credentials:
+Add the following configuration to your `.env` file:
+
+```properties
+# Supabase Configuration (Required for live data)
+SUPABASE_URL=https://your-project-id.supabase.co
+SUPABASE_KEY=your-anon-public-key-here
+
+# Dashboard Authentication (Required)
+DASHBOARD_USER=admin
+DASHBOARD_PASS=your-secure-password-here
 ```
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_KEY=your-anon-key-here
-```
+
+**Configuration Details:**
+
+- **SUPABASE_URL**: Your Supabase project URL
+  - Find this in your Supabase project dashboard under Settings → API
+  - Format: `https://[project-id].supabase.co`
+  - **Optional**: If not provided, dashboard runs in demo mode with sample data
+
+- **SUPABASE_KEY**: Your Supabase anonymous/public API key  
+  - Find this in your Supabase project dashboard under Settings → API → Project API keys
+  - Use the `anon` `public` key, not the `service_role` key for security
+  - **Optional**: If not provided, dashboard runs in demo mode
+
+- **DASHBOARD_USER**: Username for dashboard login (default: `admin`)
+  - Change this to your preferred username
+  - **Required**: Dashboard requires authentication
+
+- **DASHBOARD_PASS**: Password for dashboard login (default: `sensor123`)
+  - **Important**: Change this to a secure password before deployment
+  - **Required**: Dashboard requires authentication
+
+**Security Notes:**
+- Keep your `.env` file secure and never commit it to version control
+- The `.env` file is already included in `.gitignore`
+- Use strong passwords, especially for production deployments
+- The `service_role` key should never be used in client-side applications
 
 ### 4. Database Schema
 The dashboard expects the following Supabase tables:
@@ -78,10 +114,13 @@ The dashboard will be available at: http://localhost:8081
 
 #### 1. Prerequisites
 - Podman installed on your system
-- `.env` file configured with your credentials
+- `.env` file configured with your credentials (see Configuration section above)
 
 #### 2. Quick Start with Podman
 ```bash
+# First, ensure your .env file is properly configured
+# The container will automatically use your .env file
+
 # Build and start the dashboard
 ./run-podman.sh build
 ./run-podman.sh start
@@ -135,6 +174,22 @@ systemctl --user status sensor-dashboard.service
 - **Dashboard URL**: http://localhost:8081
 - **Default Login**: admin / sensor123
 - **Logs**: `./run-podman.sh logs`
+
+## Configuration Modes
+
+The dashboard supports two operating modes:
+
+### Demo Mode
+- **When**: No Supabase credentials provided in `.env` file
+- **Behavior**: Uses simulated sensor data for testing and demonstration
+- **Use Case**: Quick testing, development, or demonstration without database setup
+
+### Live Data Mode  
+- **When**: Valid Supabase credentials provided in `.env` file
+- **Behavior**: Connects to your Supabase database and displays real sensor readings
+- **Use Case**: Production deployment with actual IoT sensor data
+
+**Note**: The dashboard automatically detects which mode to use based on your `.env` configuration.
 
 ## Usage
 
